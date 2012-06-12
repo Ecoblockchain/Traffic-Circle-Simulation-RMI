@@ -1,0 +1,3 @@
+grant codeBase "file:home/tomek/Projekty/Traffic-Circle-Simulation-RMI-" {
+	permission java.security.AllPermission;
+};
