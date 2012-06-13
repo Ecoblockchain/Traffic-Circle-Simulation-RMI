@@ -3,9 +3,22 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Klasa zawierająca metody potrzebne klientowi do obsługi serwerów.
+ * 
+ * @author tomek
+ * 
+ */
 public class TrafficCircleSimulationManager {
+	/**
+	 * Służy do odczytania z pliku tekstowego parametrów symulacji, tj. tablicy
+	 * prawdopodobieństw zjazdu.
+	 * 
+	 * @param filename
+	 *            nazwa pliku z parametrami.
+	 * @return
+	 */
 	public float[][] load_data(String filename) {
-		// FILE * fp = fopen(filename, "r");
 
 		float array[][] = new float[4][4];
 		FileReader fr;

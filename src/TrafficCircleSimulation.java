@@ -41,6 +41,7 @@ public class TrafficCircleSimulation extends UnicastRemoteObject implements
 	 */
 	//
 	boolean _isDone = false;
+	boolean _sentResults = false;
 
 	private void log(String msg) {
 		System.out.println(((DateFormat) new SimpleDateFormat("HH:mm:ss"))
@@ -99,7 +100,7 @@ public class TrafficCircleSimulation extends UnicastRemoteObject implements
 						circle[offset[i]] = choose_exit(Entrance.values()[i]);
 					}
 				} else {
-					// Nic sie nie dzieje
+					// Nic sie nie dzieje...
 				}
 
 				if (arrival[i] > 0) {
@@ -115,38 +116,7 @@ public class TrafficCircleSimulation extends UnicastRemoteObject implements
 		} // koniec głównej pętli
 		/*** Koniec algorytmu ***/
 
-		System.out.println("arrival:");
-		for (int arr : arrival) {
-			System.out.print(arr + "\t");
-		}
-		System.out.println();
-
-		/* Zbieramy wyniki ze wszystkich maszyn */
-		// MPI_Reduce(arrival_cnt, total_arrival_cnt, 4, MPI_INT,
-		// MPI_SUM, ROOT, MPI_COMM_WORLD);
-		// MPI_Reduce(wait_cnt, total_wait_cnt, 4, MPI_INT,Array.
-		// MPI_SUM, ROOT, MPI_COMM_WORLD);
-		// MPI_Reduce(queue_accum, total_queue_accum, 4, MPI_INT,
-		// MPI_SUM, ROOT, MPI_COMM_WORLD);
-		/*
-		 * System.out.printf(
-		 * "\n +--- Wyniki po %d iteracji na kazdej z %d maszyn:\n",
-		 * REQUESTED_ITERATIONS);
-		 * System.out.printf("| %1s | %10s %10s %10s %10s %10s\n", "",
-		 * "Nadjechalo", "Czekalo", "Kolejka", "Sr. kol.", "% Czekalo"); for (i
-		 * = 0; i <= 3; ++i) { final float AVG_QUEUE = (float) queue_accum[i] /
-		 * (float) REQUESTED_ITERATIONS; final float WAITING_PERC = 100.0f *
-		 * (float) wait_cnt[i] / (float) arrival_cnt[i];
-		 * 
-		 * System.out.printf("| %d | %10d %10d %10d %10.2f %10.2f\n", i,
-		 * total_arrival_cnt[i], total_wait_cnt[i], total_queue_accum[i],
-		 * AVG_QUEUE, WAITING_PERC);
-		 * 
-		 * }
-		 */
-		/*** Koniec ***/
-		// MPI_Finalize();
-		// return 0;
+		_isDone = true;
 	}
 
 	int choose_exit(Entrance entrance_number) {
@@ -194,14 +164,17 @@ public class TrafficCircleSimulation extends UnicastRemoteObject implements
 	}
 
 	@Override
+	public boolean sent_results() throws RemoteException {
+		return _sentResults;
+	}
+
+	@Override
 	public int[][] get_results() throws RemoteException {
 		log("get_results()");
-		int results[][] = new int[5][4];
-		results[0] = arrival;
-		results[1] = arrival_cnt;
-		results[2] = wait_cnt;
-		results[3] = queue;
-		results[4] = queue_accum;
+		int results[][] = new int[3][4];
+		results[0] = arrival_cnt;
+		results[1] = wait_cnt;
+		results[2] = queue_accum;
 
 		for (int result[] : results) {
 			for (int field : result) {
@@ -210,6 +183,8 @@ public class TrafficCircleSimulation extends UnicastRemoteObject implements
 			System.out.println();
 		}
 		log("get_results() end");
+
+		_sentResults = true;
 		return results;
 	}
 }

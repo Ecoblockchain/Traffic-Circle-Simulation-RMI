@@ -18,12 +18,21 @@ public interface TrafficCircleSimulationInterface extends Remote {
 	public void set_chances(float[][] chances) throws RemoteException;
 
 	/**
-	 * Pozwala sprawdzić czy program został uruchomiony i zakończył obliczenia.
+	 * Pozwala sprawdzić czy symulacja został uruchomiona i zakończyła
+	 * obliczenia.
 	 * 
 	 * @return
 	 * @throws RemoteException
 	 */
 	public boolean is_done() throws RemoteException;
+
+	/**
+	 * Pozwala sprawdzić czy wyniki symulacji zostały odebrane.
+	 * 
+	 * @return
+	 * @throws RemoteException
+	 */
+	public boolean sent_results() throws RemoteException;
 
 	/**
 	 * Metoda przeprowadzająca właściwe obliczenia.
