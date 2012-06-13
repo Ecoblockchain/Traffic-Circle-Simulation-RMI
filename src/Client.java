@@ -9,17 +9,20 @@ public class Client {
 	 */
 	public static void main(String[] argv) {
 		try {
+
+			System.out.println("Localhost ip address: "
+					+ java.net.InetAddress.getLocalHost());
 			TrafficCircleSimulationManager trafficCircleSimulationManager = new TrafficCircleSimulationManager();
 
 			TrafficCircleSimulationInterface hello = (TrafficCircleSimulationInterface) Naming
-					.lookup("//localhost/Hello");
+					.lookup("//127.0.0.1/Hello");
 			System.out.println(hello.say("Panie, podłączony klient."));
 
 			hello.set_chances(trafficCircleSimulationManager
 					.load_data("../params.txt"));
 			System.out.println(hello.say("Panie, parametry odebrane."));
 
-			hello.run();
+			hello.start();
 			System.out.println(hello.say("Panie, koniec symulacji."));
 
 			int[][] res = hello.get_results();

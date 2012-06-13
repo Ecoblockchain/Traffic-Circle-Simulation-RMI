@@ -1,6 +1,8 @@
-import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TrafficCircleSimulation extends UnicastRemoteObject implements
 		TrafficCircleSimulationInterface {
@@ -40,21 +42,20 @@ public class TrafficCircleSimulation extends UnicastRemoteObject implements
 	//
 	boolean _isDone = false;
 
-	public void run() {
+	private void log(String msg) {
+		System.out.println(((DateFormat) new SimpleDateFormat("HH:mm:ss"))
+				.format(new Date()) + "| " + msg);
+	}
+
+	public void start() {
+		log("start()");
 
 		int i = 0;
 		int iteration = 0;
 
 		for (i = 0; i <= 15; ++i) {
 			circle[i] = -1;
-		}/*
-		 * for (i = 0; i <= 3; i++) { arrival_cnt[i] = 0; wait_cnt[i] = 0;
-		 * queue[i] = 0; queue_accum[i] = 0; }
-		 */
-
-		System.out.printf("\n+--- Inicjalizacja\n");
-		System.out.printf("| Numprocs:\t%d\n", 0);
-		System.out.printf("| myid:\t\t%d\n", 0);
+		}
 
 		for (iteration = 0; iteration <= REQUESTED_ITERATIONS; iteration++) {
 			// int k;
@@ -114,10 +115,16 @@ public class TrafficCircleSimulation extends UnicastRemoteObject implements
 		} // koniec głównej pętli
 		/*** Koniec algorytmu ***/
 
+		System.out.println("arrival:");
+		for (int arr : arrival) {
+			System.out.print(arr + "\t");
+		}
+		System.out.println();
+
 		/* Zbieramy wyniki ze wszystkich maszyn */
 		// MPI_Reduce(arrival_cnt, total_arrival_cnt, 4, MPI_INT,
 		// MPI_SUM, ROOT, MPI_COMM_WORLD);
-		// MPI_Reduce(wait_cnt, total_wait_cnt, 4, MPI_INT,
+		// MPI_Reduce(wait_cnt, total_wait_cnt, 4, MPI_INT,Array.
 		// MPI_SUM, ROOT, MPI_COMM_WORLD);
 		// MPI_Reduce(queue_accum, total_queue_accum, 4, MPI_INT,
 		// MPI_SUM, ROOT, MPI_COMM_WORLD);
@@ -176,17 +183,19 @@ public class TrafficCircleSimulation extends UnicastRemoteObject implements
 
 	@Override
 	public void set_chances(float[][] chances) throws RemoteException {
+		log("set_chances()");
 		CHANCES = chances;
 	}
 
 	@Override
 	public boolean is_done() throws RemoteException {
-		// TODO Auto-generated method stub
+		log("is_done()");
 		return _isDone;
 	}
 
 	@Override
 	public int[][] get_results() throws RemoteException {
+		log("get_results()");
 		int results[][] = new int[5][4];
 		results[0] = arrival;
 		results[1] = arrival_cnt;
@@ -194,6 +203,13 @@ public class TrafficCircleSimulation extends UnicastRemoteObject implements
 		results[3] = queue;
 		results[4] = queue_accum;
 
+		for (int result[] : results) {
+			for (int field : result) {
+				System.out.print(field + " ");
+			}
+			System.out.println();
+		}
+		log("get_results() end");
 		return results;
 	}
 }
