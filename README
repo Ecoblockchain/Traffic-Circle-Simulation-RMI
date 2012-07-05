@@ -1,1 +1,10 @@
 Monte Carlo method, Java RMI
+
+Program przeprowadzający symulacje ruchu na rondzie metodą Monte Carlo.
+
+Zadanie 10.5.6 z książki:
+Michael J. Quinn - Parallel Programing in C with MPI and OpenMPI
+
+---
+Kod Javy w wielu miejscach nieobiektowy, nazwy metod w konwencji C - tak ma zostać.
+
