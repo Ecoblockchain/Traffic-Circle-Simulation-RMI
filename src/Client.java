@@ -43,7 +43,7 @@ public class Client {
 						+ lookup_params[1];
 				servers.add((TrafficCircleSimulationInterface) Naming
 						.lookup(lookup_param));
-				log("Panie, podłączony klient: " + lookup_params[1]);
+				log("Podłączony klient: " + lookup_params[1]);
 			}
 
 			for (TrafficCircleSimulationInterface server : servers) {
@@ -66,7 +66,7 @@ public class Client {
 						int[][] res = server.get_results();
 						log("Gotowy serwer nr: " + results_cnt);
 
-						log("Panie, Wypisuje wyniki.");
+						log("Wypisuje wyniki.");
 						for (int[] tab_res : res) {
 							String line = "";
 							for (int num : tab_res) {
@@ -82,14 +82,14 @@ public class Client {
 							}
 						}
 
-						log("Suma dotychczas: ");
-						for (int[] tab_res : total_results) {
-							String line = "";
-							for (int num : tab_res) {
-								line = line + num + "  ";
-							}
-							log(line);
-						}
+						// log("Suma dotychczas: ");
+						// for (int[] tab_res : total_results) {
+						// String line = "";
+						// for (int num : tab_res) {
+						// line = line + num + "  ";
+						// }
+						// log(line);
+						// }
 					}
 				}
 			}
@@ -103,7 +103,7 @@ public class Client {
 							"% Czekalo");
 			for (int i = 0; i <= 3; ++i) {
 				final float AVG_QUEUE = (float) total_results[2][i]
-						/ (float) 32000;
+						/ (float) 32000 / (float) 4;
 				final float WAITING_PERC = 100.0f * (float) total_results[1][i]
 						/ (float) total_results[0][i];
 
