@@ -1,10 +1,7 @@
-Monte Carlo method, Java RMI
+Traffic circle simulation with Monte Carlo methods.
 
-Program przeprowadzający symulacje ruchu na rondzie metodą Monte Carlo.
+Written in Java and RMI for primitive parallelization.
 
-Zadanie 10.5.6 z książki:
-Michael J. Quinn - Parallel Programing in C with MPI and OpenMPI
+Algorithm is almost a copy-paste of the one in Michael J. Quinn, "Parallel Programing in C with MPI and OpenMPI" book.
 
----
-Kod Javy w wielu miejscach nieobiektowy, nazwy metod w konwencji C - tak ma zostać.
-
+The code of algorithm was adapted from C language with minimum effort. It explains why it looks like this.
